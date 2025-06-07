@@ -50,4 +50,4 @@ def update_note(note_id: int, updated_note: Note):
             return {"message": "Note modifiee avec succes"}
     raise HTTPException(status_code=404, detail="Note non trouvee")
 
-#test auto push 4
+#test auto push 13
