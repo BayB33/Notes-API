@@ -29,7 +29,23 @@ def test_get_notes():
 
     get_response = client.get("/notes")
     assert get_response.status_code == 200
-    
+
     notes = get_response.json()
     assert isinstance(notes, list)
     assert any(note["id"] == 42 and note["title"] == "Test" for note in notes)
+
+def test_delete_note():
+    note_data = {
+        "id": 44,
+        "title": "Test",
+        "content": "This is just a test"
+    }
+    post_response = client.post("/notes", json=note_data)
+    assert post_response.status_code == 200
+
+    delete_response = client.delete(f"/notes/{note_data['id']}")
+    assert delete_response.status_code == 200
+
+    get_response = client.get("/notes")
+    notes = get_response.json()
+    assert all(note["id"] != note_data["id"] for note in notes)
