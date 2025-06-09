@@ -18,5 +18,18 @@ def test_create_note():
     assert response.status_code == 200
     assert response.json() == {"message": "Note ajoutee avec succes"}
 
-#def test_get_notes():
-#    assert response.status_code == 200
+def test_get_notes():
+    note_data = {
+        "id": 42,
+        "title": "Test",
+        "content": "This is just a test"
+    }
+    post_response = client.post("/notes", json=note_data)
+    assert post_response.status_code == 200
+
+    get_response = client.get("/notes")
+    assert get_response.status_code == 200
+    
+    notes = get_response.json()
+    assert isinstance(notes, list)
+    assert any(note["id"] == 42 and note["title"] == "Test" for note in notes)
