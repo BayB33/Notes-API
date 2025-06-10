@@ -50,32 +50,38 @@ def test_delete_note():
     notes = get_response.json()
     assert all(note["id"] != note_data["id"] for note in notes)
 
-#Cree une note initiale
+#Test la modification de note
 def test_update_note():
+    #Cree une note initiale
     original_note = {
         "id": 50,
         "title": "Test Original",
         "content": "This is the original"
     }
-    post_response = client.post("/notes", json=original_note)
-    assert post_response.status_code == 200
 
-    #Definir le contenu de la nouvelle note
+    #Definit le contenu de la nouvelle note
     updated_data = {
         "id": 50,
         "title": "New Title",
         "content": "Updated Content"
     }
 
-    #Faire la requete PUT pour modifier la note initiale
+    #Envoie la note initiale
+    post_response = client.post("/notes", json=original_note)
+    assert post_response.status_code == 200
+
+
+    #Fait la requete PUT pour modifier la note initiale
     put_response = client.put(f"/notes/{original_note['id']}", json=updated_data)
     assert put_response.status_code == 200
+
     updated_note = put_response.json()
 
     #Verifie que les donnes retournees sont correctes
-    assert updated_note["title"] == updated_data["title"]
-    assert updated_note["content"] == updated_data["content"]
-    assert updated_note["id"] == original_note["id"]
+    assert updated_note["message"] == "Note modifiee avec succes"
+    assert updated_note["note"]["title"] == updated_data["title"]
+    assert updated_note["note"]["content"] == updated_data["content"]
+    assert updated_note["note"]["id"] == original_note["id"]
 
     #Verifie que la note modifiee est bien presente dans la liste
     get_response = client.get("/notes")
