@@ -62,12 +62,13 @@ def test_update_note():
 
     #Definir le contenu de la nouvelle note
     updated_data = {
-        "title": "New Title"
+        "id": 50,
+        "title": "New Title",
         "content": "Updated Content"
     }
 
     #Faire la requete PUT pour modifier la note initiale
-    put_response - client.put(f"/notes/{original_note['id']}", json=updated_data)
+    put_response = client.put(f"/notes/{original_note['id']}", json=updated_data)
     assert put_response.status_code == 200
     updated_note = put_response.json()
 

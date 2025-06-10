@@ -47,5 +47,8 @@ def update_note(note_id: int, updated_note: Note):
     for index, note in enumerate(notes):
         if note.id == note_id:
             notes[index] = updated_note
-            return {"message": "Note modifiee avec succes"}
+            return {
+                "message": "Note modifiee avec succes", 
+                "note": updated_note
+                }
     raise HTTPException(status_code=404, detail="Note non trouvee")
