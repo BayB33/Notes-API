@@ -75,3 +75,13 @@ def test_update_note():
     assert updated_note["title"] == updated_data["title"]
     assert updated_note["content"] == updated_data["content"]
     assert updated_note["id"] == original_note["id"]
+
+    #Verifie que la note modifiee est bien presente dans la liste
+    get_response = client.get("/notes")
+    all_notes = get_response.json()
+    assert any(
+        note["id"] == original_note["id"] and
+        note["title"] == updated_data["title"] and
+        note["content"] == updated_data["content"]
+        for note in all_notes
+    )
