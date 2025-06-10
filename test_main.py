@@ -50,13 +50,18 @@ def test_delete_note():
     notes = get_response.json()
     assert all(note["id"] != note_data["id"] for note in notes)
 
+#Cree une note initiale
 def test_update_note():
-    note_data = {
+    original_note = {
         "id": 50,
-        "title": "Test Update",
-        "content": "This is just a test update"
+        "title": "Test Original",
+        "content": "This is the original"
     }
-    post_response = client.post("/notes", json=note_data)
+    post_response = client.post("/notes", json=original_note)
     assert post_response.status_code == 200
 
-    put_response = client.put("/notes")
+    #Definir le contenu de la nouvelle note
+    updated_data = {
+        "title": "New Title"
+        "content": "Updated Content"
+    }
