@@ -49,3 +49,14 @@ def test_delete_note():
     get_response = client.get("/notes")
     notes = get_response.json()
     assert all(note["id"] != note_data["id"] for note in notes)
+
+def test_update_note():
+    note_data = {
+        "id": 50,
+        "title": "Test Update",
+        "content": "This is just a test update"
+    }
+    post_response = client.post("/notes", json=note_data)
+    assert post_response.status_code == 200
+
+    put_response = client.put("/notes")
